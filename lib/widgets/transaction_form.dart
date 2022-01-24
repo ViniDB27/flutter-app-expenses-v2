@@ -1,18 +1,27 @@
-import 'dart:math';
-
-import 'package:expenses/model/transaction.dart';
 import 'package:flutter/material.dart';
 
-class TransactionForm extends StatelessWidget {
-  final void Function(Transaction transaction) addTransaction;
+class TransactionForm extends StatefulWidget {
+  final void Function(String title, double value) addTransaction;
 
-  TransactionForm({
+  const TransactionForm({
     required this.addTransaction,
     Key? key,
   }) : super(key: key);
 
+  @override
+  State<TransactionForm> createState() => _TransactionFormState();
+}
+
+class _TransactionFormState extends State<TransactionForm> {
   final titleController = TextEditingController();
   final valueController = TextEditingController();
+
+  void _onSubmint() {
+    widget.addTransaction(
+      titleController.text,
+      double.parse(valueController.text),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +39,12 @@ class TransactionForm extends StatelessWidget {
             ),
             TextField(
               controller: valueController,
+              keyboardType:
+                  const TextInputType.numberWithOptions(decimal: true),
               decoration: const InputDecoration(
                 labelText: 'Valor (R\$)',
               ),
+              onSubmitted: (_) => _onSubmint,
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
@@ -42,12 +54,7 @@ class TransactionForm extends StatelessWidget {
                     'Nova Transação',
                     style: TextStyle(color: Colors.purple),
                   ),
-                  onPressed: () => addTransaction(Transaction(
-                    id: Random().nextDouble().toString(),
-                    name: titleController.text,
-                    value: double.parse(valueController.text),
-                    date: DateTime.now(),
-                  )),
+                  onPressed: _onSubmint,
                 )
               ],
             ),
