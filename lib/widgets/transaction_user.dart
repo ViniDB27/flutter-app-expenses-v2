@@ -11,7 +11,7 @@ class TransacationUser extends StatefulWidget {
 }
 
 class _TransacationUserState extends State<TransacationUser> {
-  final List<Transaction> _transaction = [
+  final List<Transaction> _transactions = [
     Transaction(
       id: 't1',
       name: 'Tenis Nike Runing',
@@ -30,16 +30,55 @@ class _TransacationUserState extends State<TransacationUser> {
       value: 10000.00,
       date: DateTime.now(),
     ),
+    Transaction(
+      id: 't4',
+      name: 'SSD 500 gb',
+      value: 500.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't5',
+      name: 'Cinema',
+      value: 45.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't6',
+      name: 'Fone G322',
+      value: 600.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't7',
+      name: 'Mouse G402',
+      value: 200.00,
+      date: DateTime.now(),
+    ),
+    Transaction(
+      id: 't8',
+      name: 'RX 450',
+      value: 3000.00,
+      date: DateTime.now(),
+    ),
+
   ];
+
+  void addTransaction(Transaction transaction) {
+    setState((){
+      _transactions.add(transaction);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
-        TransactionList(
-          transactions: _transaction,
+        TransactionForm(
+          addTransaction: addTransaction,
         ),
-        TransactionForm(),
+        TransactionList(
+          transactions: _transactions,
+        ),
       ],
     );
   }

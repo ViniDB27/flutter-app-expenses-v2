@@ -1,11 +1,18 @@
+import 'dart:math';
+
+import 'package:expenses/model/transaction.dart';
 import 'package:flutter/material.dart';
 
 class TransactionForm extends StatelessWidget {
-  TransactionForm({Key? key}) : super(key: key);
+  final void Function(Transaction transaction) addTransaction;
+
+  TransactionForm({
+    required this.addTransaction,
+    Key? key,
+  }) : super(key: key);
 
   final titleController = TextEditingController();
   final valueController = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +42,12 @@ class TransactionForm extends StatelessWidget {
                     'Nova Transação',
                     style: TextStyle(color: Colors.purple),
                   ),
-                  onPressed: () {
-                    print(titleController.text);
-                    print(valueController.text);
-                  },
+                  onPressed: () => addTransaction(Transaction(
+                    id: Random().nextDouble().toString(),
+                    name: titleController.text,
+                    value: double.parse(valueController.text),
+                    date: DateTime.now(),
+                  )),
                 )
               ],
             ),
